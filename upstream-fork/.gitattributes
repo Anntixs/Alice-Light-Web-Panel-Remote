@@ -1,0 +1,11 @@
+# скрипты для колонки, Linux и macOS — всегда LF, для Windows — CRLF
+*.sh text eol=lf
+*.command text eol=lf
+device/* text eol=lf
+*.bat text eol=crlf
+*.png binary
+*.stl binary
+# В архивы GitHub (Download ZIP, исходники релиза, обновление панели из архива) — только то, что нужно для запуска
+/tests export-ignore
+/docs export-ignore
+/.github export-ignore
