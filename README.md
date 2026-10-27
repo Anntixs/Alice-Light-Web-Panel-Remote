@@ -30,3 +30,27 @@ The requested HackAlice and yandex-station-web URLs were inaccessible in this en
 ## API
 
 Every `/api/` route requires `X-Panel-Token`. Implemented routes: status, system, player, player/control, lighting, settings. Unsupported operations return 501. No arbitrary shell parameters are accepted.
+
+## Windows + Node.js (local network)
+
+Install [Node.js 20 or newer](https://nodejs.org/) and Git on the Windows PC. In PowerShell:
+
+```powershell
+git clone https://github.com/Anntixs/Alice-Light-Web-Panel-Remote.git
+cd Alice-Light-Web-Panel-Remote
+$env:ALICE_PANEL_TOKEN = [Convert]::ToHexString([Security.Cryptography.RandomNumberGenerator]::GetBytes(32))
+$env:ALICE_BIND = '0.0.0.0'
+$env:ALICE_PORT = '8765'
+Write-Host "Save panel token: $env:ALICE_PANEL_TOKEN"
+.\start-windows.ps1
+```
+
+No `npm install` is required: the Node backend uses only built-in modules. Find the PC address with `ipconfig`, then open `http://PC_IP:8765` on a phone connected to the same Wi-Fi. Enter the saved token. Allow inbound TCP port 8765 only on Windows **Private** network and preferably only from your LAN. For example, in an elevated PowerShell, substituting your actual subnet:
+
+```powershell
+New-NetFirewallRule -DisplayName 'Alice Light Panel LAN' -Direction Inbound -Action Allow -Protocol TCP -LocalPort 8765 -Profile Private -RemoteAddress 192.168.1.0/24
+```
+
+For SSH monitoring, Windows OpenSSH Client must be installed. Configure key authentication for the Windows user running the panel and verify the speaker host key in that user's `known_hosts` before selecting SSH in the setup screen. Node launches only fixed read-only commands. To stop the panel, press Ctrl+C. To run it again, set the **same** token (store it securely on the PC) and execute `.\start-windows.ps1`. Never expose port 8765 directly to the internet; plain HTTP on a LAN does not encrypt the token. Use HTTPS reverse proxy if encryption is needed.
+
+Run `node --test tests/node.test.js` for Node tests. A socket-capable machine is required for the API integration test.
