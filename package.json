@@ -1,0 +1,1 @@
+{"name":"alice-light-web-panel-remote","private":true,"version":"0.1.0","description":"PC hosted Alice Light web panel","scripts":{"start":"node node/server.js","test":"node --test tests/node.test.js"},"engines":{"node":">=20"}}
