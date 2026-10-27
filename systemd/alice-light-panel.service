@@ -1,0 +1,18 @@
+[Unit]
+Description=Alice Light Web Panel Remote
+After=network-online.target
+[Service]
+Type=simple
+User=alicepanel
+Group=alicepanel
+WorkingDirectory=/opt/alice-light-web-panel-remote
+EnvironmentFile=/etc/alice-light-panel.env
+ExecStart=/opt/alice-light-web-panel-remote/start.sh
+Restart=on-failure
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/alice-light-web-panel-remote/data
+PrivateTmp=true
+[Install]
+WantedBy=multi-user.target
