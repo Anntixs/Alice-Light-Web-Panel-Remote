@@ -54,3 +54,9 @@ New-NetFirewallRule -DisplayName 'Alice Light Panel LAN' -Direction Inbound -Act
 For SSH monitoring, Windows OpenSSH Client must be installed. Configure key authentication for the Windows user running the panel and verify the speaker host key in that user's `known_hosts` before selecting SSH in the setup screen. Node launches only fixed read-only commands. To stop the panel, press Ctrl+C. To run it again, set the **same** token (store it securely on the PC) and execute `.\start-windows.ps1`. Never expose port 8765 directly to the internet; plain HTTP on a LAN does not encrypt the token. Use HTTPS reverse proxy if encryption is needed.
 
 Run `node --test tests/node.test.js` for Node tests. A socket-capable machine is required for the API integration test.
+
+## Полный форк панели dimap для первой Станции Лайт
+
+Полная копия исходного проекта [dimap/yandex-station-web](https://github.com/dimap/yandex-station-web) с сохранённой MIT-лицензией лежит в [`upstream-fork/`](upstream-fork/). Это отдельное приложение; прежний лёгкий backend в корне проекта сохранён. Для запуска форка на Windows откройте папку `upstream-fork` и выполните `start.bat`. Форк требует root-доступ по **ADB**, как и исходный проект; имеющийся доступ по SSH на порту 2222 сам по себе для него недостаточен.
+
+Изменения для первой Лайт: отдельный профиль `lite` с `yandexmicro`, распознавание `Station Micro`, выбор этого профиля по умолчанию, скрытые часы и отключённая непроверенная запись в подсветку, заставку и будильник. Плеер использует Glagol из исходного проекта. Не выбирайте вручную профиль `lite2` для первой Лайт. Функции файлов и root-консоли исходного проекта остаются мощными операциями; установите пароль доступа и не публикуйте порт панели в интернет. Аппаратное тестирование на первой Лайт ещё не проведено.
